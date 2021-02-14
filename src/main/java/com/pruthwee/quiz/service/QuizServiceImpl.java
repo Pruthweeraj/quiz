@@ -8,7 +8,6 @@ import com.pruthwee.quiz.domain.Option;
 import com.pruthwee.quiz.domain.Question;
 import com.pruthwee.quiz.domain.Result;
 import com.pruthwee.quiz.domain.User;
-import com.pruthwee.quiz.exception.QuizException;
 import com.pruthwee.quiz.model.OptionVO;
 import com.pruthwee.quiz.model.QuestionVO;
 import com.pruthwee.quiz.model.ResultVO;
@@ -19,14 +18,12 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class QuizServiceImpl implements QuizService {
@@ -84,7 +81,7 @@ public class QuizServiceImpl implements QuizService {
         Optional<UserVO> OptionalUserVO = userDao.findById(userId);
         if (OptionalUserVO.isEmpty()) {
             logger.info("Invalid UserId: {}", userId);
-            throw  new QuizException("Invalid UserId, Please use a valid one!!!", HttpStatus.BAD_REQUEST);
+//            throw  new QuizException("Invalid UserId, Please use a valid one!!!", HttpStatus.BAD_REQUEST);
         }
 
         ResultVO vo = resultDao.findByUserId(OptionalUserVO.get().getId());
