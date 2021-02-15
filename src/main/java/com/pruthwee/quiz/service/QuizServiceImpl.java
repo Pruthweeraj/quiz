@@ -22,7 +22,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @Service
@@ -92,6 +94,41 @@ public class QuizServiceImpl implements QuizService {
         }
         resultVO.setUser(OptionalUserVO.get());
         resultVO.setScore(score);
+        resultDao.save(resultVO);
+    }
+
+    @Override
+    public void submitQuizAnswer(Long userId, Map<Long, Long> ansMap) {
+        logger.info("Submitting Quiz  for userId: {}, {}", userId, ansMap);
+
+        AtomicInteger score = new AtomicInteger();
+        ansMap.forEach((k, v) ->{
+            System.out.println(k + ":" + v);
+        });
+        ansMap.forEach((questionId, selectedOptionId) -> {
+            Optional<QuestionVO> optionalQuestionVO = questionDao.findById(questionId);
+            Optional<OptionVO> optionalOptionVO = optionDao.findById(selectedOptionId);
+            if (optionalQuestionVO.isPresent() && optionalOptionVO.isPresent() && optionalOptionVO.get().isAnswer()) {
+                score.getAndIncrement();
+            }
+        });
+
+        logger.info("Score: {} for the userId: {}", score, userId);
+
+        Optional<UserVO> OptionalUserVO = userDao.findById(userId);
+        if (OptionalUserVO.isEmpty()) {
+            logger.info("Invalid UserId: {}", userId);
+            return;
+        }
+
+        ResultVO vo = resultDao.findByUserId(OptionalUserVO.get().getId());
+        ResultVO resultVO = new ResultVO();
+        if (null != vo) {
+            logger.info("Updating exiting score for the userId: {}", userId);
+            resultVO.setId(vo.getId());
+        }
+        resultVO.setUser(OptionalUserVO.get());
+        resultVO.setScore(score.longValue());
         resultDao.save(resultVO);
     }
 

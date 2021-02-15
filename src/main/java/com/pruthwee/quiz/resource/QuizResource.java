@@ -10,6 +10,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin
@@ -30,6 +31,12 @@ public class QuizResource {
     @PostMapping("/questions")
     private ResponseEntity<Question> submitQuiz(@RequestParam Long userId, @RequestBody List<Question> questions) {
         quizService.submitQuiz(userId, questions);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PostMapping("/answer")
+    private ResponseEntity<Question> submitQuizAnswer(@RequestParam Long userId, @RequestBody Map<Long, Long> ansMap) {
+        quizService.submitQuizAnswer(userId, ansMap);
         return new ResponseEntity(HttpStatus.OK);
     }
 
