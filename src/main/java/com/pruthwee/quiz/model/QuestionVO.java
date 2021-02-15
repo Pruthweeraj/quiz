@@ -20,8 +20,7 @@ public class QuestionVO {
 
     private String name;
 
-    @OneToMany()
-    @JoinColumn(name = "option_id")
+    @OneToMany(mappedBy="question")
     private List<OptionVO> options;
 
     public QuestionVO() {

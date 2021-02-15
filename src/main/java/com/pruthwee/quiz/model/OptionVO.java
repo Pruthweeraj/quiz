@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Component
-@Table(name = "option")
+@Table(name = "options")
 public class OptionVO {
 
     @Id

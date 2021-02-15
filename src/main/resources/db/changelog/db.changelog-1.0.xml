@@ -31,7 +31,7 @@
             </column>
         </createTable>
 
-        <createTable tableName="option">
+        <createTable tableName="options">
             <column name="option_id" type="serial" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
@@ -39,8 +39,12 @@
                 <constraints nullable="false"/>
             </column>
             <column name="question_id" type="integer">
-                <constraints nullable="false" foreignKeyName="fk_prm_question"
-                             references="question"/>
+                <constraints nullable="false"
+                             foreignKeyName="fk_prm_question"
+                             referencedColumnNames="question_id"
+                             referencedTableName="question"/>
+
+
             </column>
             <column name="is_answer" type="boolean">
                 <constraints nullable="false"/>
@@ -52,24 +56,21 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="user_id" type="integer">
-                <constraints nullable="false" foreignKeyName="fk_prm_user"
-                             references="user"/>
+                <constraints nullable="false"
+                             foreignKeyName="fk_prm_user"
+                             referencedColumnNames="user_id"
+                             referencedTableName="user"/>
             </column>
             <column name="score" type="integer">
                 <constraints nullable="false"/>
             </column>
         </createTable>
 
-
-        <!--        <addUniqueConstraint-->
-        <!--                columnNames="user_name, priority_id"-->
-        <!--                constraintName="user_name_priority_id_composite_constraint_name"-->
-        <!--                tableName="user"/>-->
     </changeSet>
 
-<!--    Adding seedData for tables-->
-        <changeSet id="2.0" author="Pruthwee">
-            <sqlFile path="seedData.sql" relativeToChangelogFile="true"/>
-        </changeSet>
+    <!--        Adding seedData for tables-->
+    <changeSet id="2.0" author="Pruthwee">
+        <sqlFile path="seedData.sql" relativeToChangelogFile="true"/>
+    </changeSet>
 
 </databaseChangeLog>

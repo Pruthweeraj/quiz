@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface OptionDao extends JpaRepository<OptionVO, Long> {
 
-    @Query(value = "select * from option where question_id = :questionId", nativeQuery = true)
+    @Query(value = "select * from options where question_id = :questionId", nativeQuery = true)
     List<OptionVO> findByQuestionId(Long questionId);
 }
